@@ -1,5 +1,5 @@
 # DEMO
-[Live](https://mellow-toffee-207486.netlify.app/)
+[Live](https://movies-api-207486.netlify.app)
 
 # Getting Started with Create React App
 
