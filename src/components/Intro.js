@@ -8,11 +8,11 @@ const Intro = () => {
                     <Col>
                         <div className="title">
                             MOVIES LIST
-                            <div className="intoButton text-center mt-4">
-                                <Button variant='light'>
-                                    See All List
-                                </Button>
-                            </div>
+                        </div>
+                        <div className="intoButton text-center mt-4">
+                            <Button variant='light' href='#trending'>
+                                See All List
+                            </Button>
                         </div>
                     </Col>
                 </Row>

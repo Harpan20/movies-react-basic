@@ -1,12 +1,21 @@
 import { Card, Container, Row, Col, Image } from 'react-bootstrap';
-import eeaoImage from "../assets/images/trending/eeao.jpg"
-import hustleImage from "../assets/images/trending/hustle.jpg"
-import obiwanImage from "../assets/images/trending/obiwan.jpg"
-import doctorStrangeImage from "../assets/images/trending/doctor-strange.jpg"
-import strangerImage from "../assets/images/trending/stranger-things.jpg"
-import topgunImage from "../assets/images/trending/topgun.jpg"
+import { useState, useEffect } from 'react';
+import axios from 'axios';
 
 const Trending = () => {
+    const [movies, setMovies] = useState([])
+
+    useEffect(() => {
+        axios.get(`${process.env.REACT_APP_BASE_URL}/trending/movie/week`, {
+            params: {
+                api_key: process.env.REACT_APP_API_KEY
+            }
+        }).then((response) => {
+            setMovies(response.data.results)
+        })
+    }, [])
+
+
     return (
         <div>
             <Container>
@@ -14,85 +23,24 @@ const Trending = () => {
                     TRENDING MOVIES
                 </h1>
                 <Row>
-                    <Col md={4}>
-                        <Card className="bg-dark text-white text-center movieImage">
-                            <Image src={eeaoImage} alt="eeao" />
-                            <div className="p-2 m-1 text-white">
-                                <Card.Title className="text-center">Everything Everywhere All at Once</Card.Title>
-                                <Card.Text className="text-start">
-                                    This content is a little bit longer.
-                                </Card.Text>
-                                <Card.Text className="text-start">Last updated 3 mins ago</Card.Text>
-                            </div>
-                        </Card>
-                    </Col>
-
-                    <Col md={4}>
-                        <Card className="bg-dark text-white text-center movieImage">
-                            <Image src={hustleImage} alt="hustle" />
-                            <div className="p-2 m-1">
-                                <Card.Title className="text-center">Hustle</Card.Title>
-                                <Card.Text className="text-start">
-                                    This content is a little bit longer.
-                                </Card.Text>
-                                <Card.Text className="text-start">Last updated 3 mins ago</Card.Text>
-                            </div>
-                        </Card>
-                    </Col>
-
-                    <Col md={4}>
-                        <Card className="bg-dark text-white text-center movieImage">
-                            <Image src={obiwanImage} alt="obiwan" />
-                            <div className="p-2 m-1">
-                                <Card.Title className="text-center">Obi-Wan</Card.Title>
-                                <Card.Text className="text-start">
-                                    This content is a little bit longer.
-                                </Card.Text>
-                                <Card.Text className="text-start">Last updated 3 mins ago</Card.Text>
-                            </div>
-                        </Card>
-                    </Col>
-                </Row>
-
-                <Row>
-                    <Col md={4}>
-                        <Card className="bg-dark text-white text-center movieImage">
-                            <Image src={doctorStrangeImage} alt="eeao" />
-                            <div className="p-2 m-1 text-white">
-                                <Card.Title className="text-center">Doctor Strange in The Multiverse of Madness</Card.Title>
-                                <Card.Text className="text-start">
-                                    This content is a little bit longer.
-                                </Card.Text>
-                                <Card.Text className="text-start">Last updated 3 mins ago</Card.Text>
-                            </div>
-                        </Card>
-                    </Col>
-
-                    <Col md={4}>
-                        <Card className="bg-dark text-white text-center movieImage">
-                            <Image src={strangerImage} alt="hustle" />
-                            <div className="p-2 m-1">
-                                <Card.Title className="text-center">Stranger Things 4</Card.Title>
-                                <Card.Text className="text-start">
-                                    This content is a little bit longer.
-                                </Card.Text>
-                                <Card.Text className="text-start">Last updated 3 mins ago</Card.Text>
-                            </div>
-                        </Card>
-                    </Col>
-
-                    <Col md={4}>
-                        <Card className="bg-dark text-white text-center movieImage">
-                            <Image src={topgunImage} alt="obiwan" />
-                            <div className="p-2 m-1">
-                                <Card.Title className="text-center">Top Gun Maverick</Card.Title>
-                                <Card.Text className="text-start">
-                                    This content is a little bit longer.
-                                </Card.Text>
-                                <Card.Text className="text-start">Last updated 3 mins ago</Card.Text>
-                            </div>
-                        </Card>
-                    </Col>
+                    {
+                        movies.map((result, index) => {
+                            return (
+                                <Col md={4} key={index}>
+                                    <Card className="bg-dark text-white text-center movieImage">
+                                        <Image src={`${process.env.REACT_APP_IMAGE_URL}/${result.poster_path}`} alt={result.title} />
+                                        <div className="p-2 m-1 text-white">
+                                            <Card.Title className="text-center">{result.title}</Card.Title>
+                                            <Card.Text className="text-start">
+                                                {result.overview}
+                                            </Card.Text>
+                                            <Card.Text className="text-start">{result.release_date}</Card.Text>
+                                        </div>
+                                    </Card>
+                                </Col>
+                            )
+                        })
+                    }
                 </Row>
             </Container>
 
